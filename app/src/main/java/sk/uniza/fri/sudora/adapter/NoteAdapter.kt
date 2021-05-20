@@ -298,37 +298,60 @@ class NoteAdapter(
             this.viewModel = viewModel
             this.listType = listType
             this.context = context
+            setUpItemAndDialog()
+        }
+
+        /**
+         * Nastavi poznamku a dialog pri pokuse o odstranenie poznamky
+         */
+        private fun setUpItemAndDialog() {
+            //spravenie dialogu, ktori sa zobrazi ked pouzivatel bude chcet vymazat poznamku
             this.deleteDialog = MaterialAlertDialogBuilder(context)
-                    .setTitle(R.string.delete_dialog_title)
-                    .setMessage(R.string.delete_dialog_text)
-                    .setNegativeButton(R.string.delete_dialog_no_button_label)
-                    { _, _ -> }
+                .setTitle(R.string.delete_dialog_title)
+                .setMessage(R.string.delete_dialog_text)
+                .setNegativeButton(R.string.delete_dialog_no_button_label)
+                { _, _ -> }
+            //nastavi poznamku ak je pripnuta t.j. zmeni obrazok prpnutia, zneviditelni paletu
             if (note.isPinned) {
                 binding.btnPin.setImageResource(R.drawable.ic_baseline_push_pin_24)
                 binding.btnPalette.visibility = View.INVISIBLE
                 binding.btnPalette.isClickable = false
             } else {
+                //nastavi poznamku ak nie je pripnuta t.j. zmeni obrazok prpnutia, zviditelni paletu
                 binding.btnPin.setImageResource(R.drawable.pin)
                 binding.btnPalette.visibility = View.VISIBLE
                 binding.btnPalette.isClickable = true
             }
+            //Vypni, resp. zmen urcite tlacidla ak sa zobrazuje urcity typ zoznamu
             when(listType) {
                 ARCHIVE -> {
+                    //ak je zoznam typu archiv, zmen obrazok na presun poznamky do hlavneho zoznamu
                     binding.btnArchive.setImageResource(R.drawable.ic_baseline_notes_24)
+                    //nemoze sa pripnut poznamka v archive
                     binding.btnPin.isClickable = false
                     binding.btnPin.visibility = View.INVISIBLE
                 }
                 TRASH -> {
+                    //ak je zoznam typu archiv, zmen obrazok na presun poznamky do hlavneho zoznamu
                     binding.btnArchive.setImageResource(R.drawable.ic_baseline_notes_24)
+                    //nemoze sa pripnut poznamka v kosi
                     binding.btnPin.isClickable = false
                     binding.btnPin.visibility = View.INVISIBLE
+                    //nemoze sa zdialt poznamka v kosi
                     binding.btnShare.isClickable = false
                     binding.btnShare.visibility = View.INVISIBLE
                 }
                 else ->{}
             }
         }
-        fun setColorPaletteVisibility(visibility : Int, colorPaletteViewList : List<View> = colorPaletteButtons){
+
+        /**
+         * Nastav vsetkym prvkom v palete zadanu viditelnost
+         *
+         * @param visibility nastavenie viditelnosti/neviditelnosti
+         * @param colorPaletteViewList zoznam tlacidial a pozadia na zmenu viditelnosti
+         */
+        private fun setColorPaletteVisibility(visibility : Int, colorPaletteViewList : List<View> = colorPaletteButtons){
             for(view in colorPaletteViewList)
                 view.visibility = visibility
         }

@@ -2,7 +2,6 @@ package sk.uniza.fri.sudora.notes
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color.*
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager

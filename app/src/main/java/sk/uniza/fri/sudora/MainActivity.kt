@@ -28,11 +28,18 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(NoteListViewModel::class.java)
         //nacita ulozene poznamky do view modelu
         readDataToViewModel()
-        //nastavuje navigation drawer a kontroler
+        //nastav navigation drawer a kontroler
         val navController = this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.navView, navController)
+        //nastav preferencie
+        setUpPreferences()
+    }
 
+    /**
+     * Zisti ulozene preferencie nastavene pouzivatelom a aplikuj ich
+     */
+    private fun setUpPreferences(){
         //nacita ulozenu preferenciu pouzivatela o tmavom rezime
         val appSettingsPrefs: SharedPreferences = getSharedPreferences(getString(R.string.app_settings_prefs), 0)
         val isNightModeOn: Boolean = appSettingsPrefs.getBoolean(getString(R.string.dark_modeKey), false)
@@ -44,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Vykonavane operacie po stlaceni tlacidla spat
+     */
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
         return NavigationUI.navigateUp(navController, drawerLayout)
@@ -62,11 +72,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun writeFromViewModel(){
         val gson = Gson()
-
+        //zmeni zoznamy do json formatu
         val noteJSON = gson.toJson(viewModel.noteList.value)
         val archiveJSON = gson.toJson(viewModel.archiveList.value)
         val trashJSON = gson.toJson(viewModel.trashList.value)
-
+        //ulozi json poznamky ako string
         getPreferences(MODE_PRIVATE).edit().apply {
             putString("noteJSON", noteJSON)
             putString("archiveJSON", archiveJSON)
@@ -80,12 +90,13 @@ class MainActivity : AppCompatActivity() {
     private fun readDataToViewModel(){
         val gson = Gson()
         val sharedPrefs = getPreferences(MODE_PRIVATE)
-
+        //nacitaj zoznamy do json formatu
         val noteJSON = sharedPrefs.getString("noteJSON", "[]")
         val archiveJSON = sharedPrefs.getString("archiveJSON", "[]")
         val trashJSON = sharedPrefs.getString("trashJSON", "[]")
 
         val type = object: TypeToken<MutableList<Note?>>() {}.type
+        //nacitaj ulozene poznamky do view modelu
         viewModel.addToViewModel(gson.fromJson(noteJSON, type), gson.fromJson(archiveJSON, type), gson.fromJson(trashJSON, type))
     }
 }

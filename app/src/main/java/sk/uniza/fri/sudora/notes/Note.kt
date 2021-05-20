@@ -11,6 +11,7 @@ import java.util.*
  * @param noteTitle nadpis poznmaky
  * @param noteText text poznamky
  * @param color farba poznamky
+ * @param isPinned je poznamka pripnuta
  */
 data class Note(val noteId: UUID,
                          var noteTitle: String,

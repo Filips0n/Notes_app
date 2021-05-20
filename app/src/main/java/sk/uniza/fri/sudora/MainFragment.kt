@@ -25,37 +25,26 @@ import sk.uniza.fri.sudora.databinding.FragmentMainBinding
 class MainFragment : Fragment() {
     private val args by navArgs<MainFragmentArgs>()
     private val viewModel: NoteListViewModel by activityViewModels()
-
+    lateinit var binding : FragmentMainBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         //zobrazi action bar
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false)
+        binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false)
         //tlacitlo pre pridanie dalsej poznamky
         binding.newNoteButton.setOnClickListener { view: View ->
             view.findNavController().navigate(MainFragmentDirections.actionMainFragmentToCreateNoteFragment())
         }
-
-        var note = args.note
-        //prida poznamku do zoznamu len ak sa rovnaka poznamka nenachadza v zoznamoch
-        if(!isInViewModel() && note != null && note.noteTitle != "" && note.noteText != "") {
-            //zisti pouzivatelovu preferenciu o pridani poznamky na prve miesto v zozname alebo na posledne
-            val appSettingsPrefs: SharedPreferences = this.requireContext().getSharedPreferences(getString(R.string.app_settings_prefs), 0)
-            val isNewNoteTopON: Boolean = appSettingsPrefs.getBoolean(getString(R.string.new_note_top), false)
-            if (isNewNoteTopON){
-                viewModel.noteList.value!!.add(viewModel.numberOfPinnedNotes, note)
-            } else {
-                viewModel.addNote(note, ListType.NOTE)
-            }
-            Snackbar.make(binding.newNoteButton, getString(R.string.note_added_successfully), Snackbar.LENGTH_SHORT).setAnchorView(binding.newNoteButton).show()
-        }
+        //pridaj poznamku
+        addNoteToNoteList()
 
         //adapter pre zvladnutie prace s poznamkami
         val adapter = NoteAdapter(viewModel, ListType.NOTE, NoteListener {}, this.context)
         binding.noteList.adapter = adapter
         binding.lifecycleOwner = this
+        //observer zmeny zoznamu poznamok
         viewModel.noteList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
@@ -67,11 +56,32 @@ class MainFragment : Fragment() {
                 binding.textViewNote.text = getString(R.string.no_notes_to_display)
             }
         })
-        //nastavi layout jednej poznamky na celu sirku
+        //nastavi layout kazdej poznamky na celu sirku
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.noteList.layoutManager = manager
 
         return binding.root
+    }
+
+    /**
+     * Prida poznamku do zoznamu poznamok, ak sa tam uz nenachadza
+     */
+    private fun addNoteToNoteList(){
+        var note = args.note
+        //prida poznamku do zoznamu len ak sa rovnaka poznamka nenachadza v zoznamoch
+        if(!isInViewModel() && note != null && note.noteTitle != "" && note.noteText != "") {
+            //zisti pouzivatelovu preferenciu o pridani poznamky na prve miesto v zozname alebo na posledne
+            val appSettingsPrefs: SharedPreferences = this.requireContext().getSharedPreferences(getString(R.string.app_settings_prefs), 0)
+            val isNewNoteTopON: Boolean = appSettingsPrefs.getBoolean(getString(R.string.new_note_top), false)
+            if (isNewNoteTopON){
+                //ak je pouzivatelom dana preferencia na zobrazovanie novych poznamok hore prida poznamku hned za pripnute poznamky
+                viewModel.noteList.value!!.add(viewModel.numberOfPinnedNotes, note)
+            } else {
+                //prida poznamku na koniec zoznamu
+                viewModel.addNote(note, ListType.NOTE)
+            }
+            Snackbar.make(binding.newNoteButton, getString(R.string.note_added_successfully), Snackbar.LENGTH_SHORT).setAnchorView(binding.newNoteButton).show()
+        }
     }
 
     /**

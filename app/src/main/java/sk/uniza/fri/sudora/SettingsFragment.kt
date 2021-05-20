@@ -32,12 +32,16 @@ class SettingsFragment : Fragment() {
         switchDarkMode.isChecked = isNightModeOn
         switchDarkMode.setOnClickListener {
             if (isNightModeOn){
+                //ak sa zmenila poloha switchu vypni tmavy rezim
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                //zapis pouzivatelovej preferencie
                 sharedPrefsEdit.putBoolean(getString(R.string.dark_modeKey), false)
                 sharedPrefsEdit.apply()
                 Toast.makeText(this.context, getString(R.string.dark_mode_off), Toast.LENGTH_SHORT).show()
             } else {
+                //ak sa zmenila poloha switchu zapni tmavy rezim
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                //zapis pouzivatelovej preferencie
                 sharedPrefsEdit.putBoolean(getString(R.string.dark_modeKey), true)
                 sharedPrefsEdit.apply()
                 Toast.makeText(this.context, getString(R.string.dark_mode_on), Toast.LENGTH_SHORT).show()
@@ -51,9 +55,11 @@ class SettingsFragment : Fragment() {
         newNoteToTop.isChecked = isNewNoteTopON
         newNoteToTop.setOnClickListener {
             if (isNewNoteTopON){
+                //zapis pouzivatelovej preferencie
                 sharedPrefsEdit.putBoolean(getString(R.string.new_note_top), false)
                 sharedPrefsEdit.apply()
             } else {
+                //zapis pouzivatelovej preferencie
                 sharedPrefsEdit.putBoolean(getString(R.string.new_note_top), true)
                 sharedPrefsEdit.apply()
             }
