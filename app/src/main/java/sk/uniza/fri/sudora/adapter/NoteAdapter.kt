@@ -212,43 +212,49 @@ class NoteAdapter(
                     TRASH -> it.findNavController().navigate(TrashFragmentDirections.actionTrashFragmentToCreateNoteFragment(note))
                 }
             }
-
+            //tlacidlo pripnutia poznamky
             binding.btnPin.setOnClickListener {
                 if(note.isPinned) {
+                    //ak bola poznamka pripnuta a pouzivatel sa ju rozhodne odpripnut,
                     note.isPinned = false
+                    //nepripnutym poznamkam sa zobrazuje paleta
                     binding.btnPalette.visibility = View.VISIBLE
                     binding.btnPalette.isClickable = true
-
+                    //zisti pocet poznamok pred pripnutim, kvoli osetreniu chyby
                     val previousNumberOfItems = viewModel.noteList.value!!.size
                     val noteMoved = note
-
+                    //odstrani poznamku, znizi pocet pripnutych poznamok a prida poznamku na nove miesto
                     viewModel.removeNote(note, NOTE1)
                     viewModel.decreaseNumberOfPinnedNotes()
                     viewModel.addNote(noteMoved, NOTE1, viewModel.numberOfPinnedNotes)
-
+                    //nastavi pozadie poznamky podla toho aka farba je v poznamke
                     setColorOfBackground(note)
+                    //zmeni obrazok pripnutia na nepripnuta
                     binding.btnPin.setImageResource(R.drawable.pin)
-
+                    //zistim kolko je aktualne poznamok v zozname
                     val newNumberOfNotes = viewModel.noteList.value!!.size
+                    //ak sa pocet poznamok nezhoduje odstran poznamku a zvys pocet pripnutych poznamok
                     if (previousNumberOfItems != newNumberOfNotes) {
                         viewModel.removeNote(note, NOTE1)
                         viewModel.increaseNumberOfPinnedNotes()
                     }
                 } else{
+                    //ak nebola poznamka pripnuta a pouzivatel ju pripne
                     note.isPinned = true
+                    //pripnutym poznamkam sa nezobrazuje paleta
                     binding.btnPalette.visibility = View.INVISIBLE
                     binding.btnPalette.isClickable = false
-
+                    //zisti pocet poznamok pred pripnutim, kvoli osetreniu chyby
                     val previousNumberOfItems = viewModel.noteList.value!!.size
                     val noteMoved = note
-
+                    //odstrani poznamku, znizi pocet pripnutych poznamok a prida poznamku na nove miesto
                     viewModel.removeNote(note, NOTE1)
                     viewModel.increaseNumberOfPinnedNotes()
                     viewModel.addNote(noteMoved, NOTE1, 0)
-
+                    //nastavi pozadie poznamky na typ pripnutej a zmen obrazok pripnutia
                     itemView.setBackgroundResource(R.drawable.note_card_pinned)
                     binding.btnPin.setImageResource(R.drawable.ic_baseline_push_pin_24)
-
+                    //ak sa pocet poznamok nezhoduje odstran poznamku a zniz pocet pripnutych poznamok
                     val newNumberOfNotes = viewModel.noteList.value!!.size
                     if (previousNumberOfItems != newNumberOfNotes) {
                         viewModel.removeNote(note, NOTE1)
@@ -256,19 +262,21 @@ class NoteAdapter(
                     }
                 }
             }
-
+            //tlacidlo zdialania
             binding.btnShare.setOnClickListener {
                 val shareIntent = Intent().apply {
                     this.action = Intent.ACTION_SEND
-                    this.putExtra(Intent.EXTRA_TEXT, "Note Title: " + binding.noteTitleView.text + "\nNote Text: " + binding.noteTextView.text)
-                    this.type = "text/plain"
+                    this.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.note_title) + binding.noteTitleView.text + "\n" +context.getString(
+                                            R.string.note_text) + binding.noteTextView.text)
+                    this.type = context.getString(R.string.text_plaint)
                 }
                 context.startActivity(shareIntent)
             }
             return this
         }
 
-        fun setColorOfBackground(note : Note) {
+        //nastavenie pozadia poznamky podla farby ulozenej v poznamke
+        private fun setColorOfBackground(note : Note) {
             when(note.color) {
                 NoteColor.YELLOW -> itemView.setBackgroundResource(R.drawable.note_card_yellow)
                 NoteColor.GREEN -> itemView.setBackgroundResource(R.drawable.note_card_green)
@@ -277,6 +285,14 @@ class NoteAdapter(
             }
         }
 
+        /**
+         * Presunie data do view holdera
+         *
+         * @param viewModel viewModel, z ktoreho sa preberaju zoznamy
+         * @param note aktualna poznamka
+         * @param listType typ aktulalneho zoznamu
+         * @param context context z fragmentu
+         */
         fun moveDataToViewHolder(viewModel: NoteListViewModel, note: Note?, listType: ListType, context: Context) {
             this.note = note!!
             this.viewModel = viewModel
