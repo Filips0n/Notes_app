@@ -21,6 +21,7 @@ import java.util.*
 /**
  * Frogment pre vytvaranie a upravovanie poznamok
  */
+@Suppress("NAME_SHADOWING")
 class CreateNoteFragment : Fragment() {
     private lateinit var binding: FragmentCreateNoteBinding
     private val args by navArgs<CreateNoteFragmentArgs>()
@@ -37,7 +38,7 @@ class CreateNoteFragment : Fragment() {
         try {
             note = args.editNote!!
         } catch (e: NullPointerException) {}
-
+        //napise do editovacich poli titulok a text poznamky
         binding.noteTitleInput.setText(note.noteTitle, TextView.BufferType.EDITABLE)
         binding.noteInput.setText(note.noteText, TextView.BufferType.EDITABLE)
 
