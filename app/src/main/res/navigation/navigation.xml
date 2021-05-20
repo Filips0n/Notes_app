@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="sk.uniza.fri.sudora.MainFragment"
+        android:label="@string/app_name" >
+        <action
+            android:id="@+id/action_mainFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <argument
+            android:name="note"
+            app:argType="sk.uniza.fri.sudora.notes.Note"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="sk.uniza.fri.sudora.ArchiveFragment"
+        android:label="Archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trashFragment"
+        android:name="sk.uniza.fri.sudora.TrashFragment"
+        android:label="Trash" >
+        <action
+            android:id="@+id/action_trashFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNoteFragment"
+        android:name="sk.uniza.fri.sudora.notes.CreateNoteFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_createNoteFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"/>
+        <argument
+            android:name="editNote"
+            app:argType="sk.uniza.fri.sudora.notes.Note"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="sk.uniza.fri.sudora.SettingsFragment"
+        android:label="Settings" />
+</navigation>
