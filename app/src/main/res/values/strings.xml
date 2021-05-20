@@ -52,4 +52,7 @@
     <string name="pin_button_desc">Pin button</string>
     <string name="automatically_turn_dark_mode_on">Automatically turn Dark Mode ON</string>
     <string name="auto_dark_mode_on">AutoDarkModeON</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>

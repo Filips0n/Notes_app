@@ -32,13 +32,18 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         try {
             val item = getItem(position)
+            //dam data do view holdera
             holder.moveDataToViewHolder(viewModel, item, listType, context!!)
             holder.bind(item, clickListener)
+            //nastavim titulok z itemu
             holder.binding.noteTitleView.text = item?.noteTitle
+            //nastavim text z itemu
             holder.binding.noteTextView.text = item?.noteText
+            //zistim ci je item pripnuty, ak ano nastavim mu specialne podfarbenie
             if (item.isPinned) {
                 holder.itemView.setBackgroundResource(R.drawable.note_card_pinned)
             } else {
+                //ak nie je pripnuty, nastavim mu podfarbenie podla atributu v poznamke
                 holder.itemView.setBackgroundResource(getBackgroundColorOfItem(item))
             }
         } catch (e: NullPointerException) {}
@@ -47,7 +52,7 @@ class NoteAdapter(
     /**
      * Podla farby nastavenej v poznamke urci akej farby ma byt poznamka
      *
-     * @param color farba poznamky
+     * @param note poznamka, ktorej chceme zistit farbu
      *
      * @return cestu suboru k podfarbeniu poznamky
      */
@@ -77,6 +82,7 @@ class NoteAdapter(
         private val yellowColorPickerButton = binding.yellowColorPicker
         private val redColorPickerButton = binding.redColorPicker
         private val colorPaletteBackground = binding.colorPaletteBackground
+        //zoznam vsetkych buttonov a pozadia, ktore sa ukryju/ zobrazia ked sa klikne na tlacidlo palety
         private val colorPaletteButtons : List<ImageView> = listOf(colorPaletteBackground,  greenColorPickerButton, blueColorPickerButton, yellowColorPickerButton, redColorPickerButton)
         var isPaletteOpen = false
 
@@ -84,6 +90,7 @@ class NoteAdapter(
         private val textButton = binding.noteTextView
 
         fun bind(item: Note, clickListener: NoteListener) {
+            //nastavim si ako note aktualny item
             binding.note = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -101,19 +108,24 @@ class NoteAdapter(
          * Pocuvac na vsetky tlacitka poznamky
          */
         private fun buttonListener(): NoteViewHolder {
+            //tlacidlo vymazania z aktualneho zoznamu
             binding.btnDelete.setOnClickListener {
                 when(listType){
                     NOTE1 -> {
                         viewModel.removeNote(note, NOTE1)
-                        setColorOfBackground(note)
-                        note.isPinned = false
-                        viewModel.decreaseNumberOfPinnedNotes()
+                        //ak je poznamka pripnuta zmenim jej pozadie a zmensim pocet pripnutych poznamok
+                        if(note.isPinned) {
+                            setColorOfBackground(note)
+                            note.isPinned = false
+                            viewModel.decreaseNumberOfPinnedNotes()
+                        }
                         viewModel.addNote(note, TRASH)
                     }
                     ARCHIVE -> {
                         viewModel.removeNote(note, ARCHIVE)
                         viewModel.addNote(note, TRASH)
                     }
+                    //opytam sa ci chce pouzivatel skutocne vymazat poznamku
                     TRASH -> {
                         deleteDialog.setPositiveButton(R.string.delete_dialog_yes_button_label)
                         { _, _ ->
@@ -122,13 +134,18 @@ class NoteAdapter(
                     }
                 }
             }
+            //tlacidlo pre presunutie poznamky do archivu
             binding.btnArchive.setOnClickListener {
                 when(listType){
                     NOTE1 -> {
                         viewModel.removeNote(note, NOTE1)
-                        setColorOfBackground(note)
-                        note.isPinned = false
-                        viewModel.decreaseNumberOfPinnedNotes()
+                        //ak je poznamka pripnuta nastavim farbu zadanu v poznamke a znizim pocet
+                        //pripnutych poznamok v zozname
+                        if (note.isPinned){
+                            setColorOfBackground(note)
+                            note.isPinned = false
+                            viewModel.decreaseNumberOfPinnedNotes()
+                        }
                         viewModel.addNote(note, ARCHIVE)
                     }
                     ARCHIVE -> {
@@ -141,6 +158,7 @@ class NoteAdapter(
                     }
                 }
             }
+            //tlacidlo pre spravu palety, skryje/zobrazi vsetky tlacitka a pozadie, ktorych sa to tyka
             setColorPaletteVisibility(View.INVISIBLE)
             binding.btnPalette.setOnClickListener{
                 if (isPaletteOpen) {
@@ -152,6 +170,8 @@ class NoteAdapter(
                 }
             }
 
+            //ak je stlacene tlacidlo s danou farbou, zmeni pozadanie aktualnej poznamky
+            //a skryje vsetky tlacidla, ktore patria pod paletu
             yellowColorPickerButton.setOnClickListener {
                 note.color = NoteColor.YELLOW
                 itemView.setBackgroundResource(R.drawable.note_card_yellow)
@@ -176,15 +196,15 @@ class NoteAdapter(
                 setColorPaletteVisibility(View.INVISIBLE)
                 isPaletteOpen = false
             }
+            //zisti ci sa stlacil nadpis na poznamke, ak ano prejde na jej upravovanie
             titleButton.setOnClickListener {
                 when(listType) {
                     ListType.NOTE -> it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToCreateNoteFragment(note))
                     ARCHIVE -> it.findNavController().navigate(ArchiveFragmentDirections.actionArchiveFragmentToCreateNoteFragment(note))
                     TRASH -> it.findNavController().navigate(TrashFragmentDirections.actionTrashFragmentToCreateNoteFragment(note))
                 }
-
             }
-
+            //zisti ci sa stlacil text na poznamke, ak ano prejde na jej upravovanie
             textButton.setOnClickListener {
                 when(listType) {
                     ListType.NOTE -> it.findNavController().navigate(MainFragmentDirections.actionMainFragmentToCreateNoteFragment(note))
@@ -195,17 +215,6 @@ class NoteAdapter(
 
             binding.btnPin.setOnClickListener {
                 if(note.isPinned) {
-//                    setColorOfBackground(note)
-//                    note.isPinned = false
-//                    binding.btnPalette.visibility = View.VISIBLE
-//                    binding.btnPalette.isClickable = true
-//
-//                    viewModel.removeNote(note, NOTE1)
-//                    //viewModel.addNote(note, NOTE1, viewModel.noteList.value!!.size)
-//                    viewModel.decreaseNumberOfPinnedNotes()
-//                    viewModel.addNote(note, NOTE1, viewModel.numberOfPinnedNotes)
-//                    binding.btnPin.setImageResource(R.drawable.pin)
-
                     note.isPinned = false
                     binding.btnPalette.visibility = View.VISIBLE
                     binding.btnPalette.isClickable = true
@@ -226,16 +235,6 @@ class NoteAdapter(
                         viewModel.increaseNumberOfPinnedNotes()
                     }
                 } else{
-//                    note.isPinned = true
-//                    binding.btnPalette.visibility = View.INVISIBLE
-//                    binding.btnPalette.isClickable = false
-//
-//                    viewModel.removeNote(note, NOTE1)
-//                    viewModel.addNote(note, NOTE1, 0)
-//                    viewModel.increaseNumberOfPinnedNotes()
-//                    itemView.setBackgroundResource(R.drawable.note_card_pinned)
-//                    binding.btnPin.setImageResource(R.drawable.ic_baseline_push_pin_24)
-
                     note.isPinned = true
                     binding.btnPalette.visibility = View.INVISIBLE
                     binding.btnPalette.isClickable = false
@@ -310,6 +309,7 @@ class NoteAdapter(
                     binding.btnShare.isClickable = false
                     binding.btnShare.visibility = View.INVISIBLE
                 }
+                else ->{}
             }
         }
         fun setColorPaletteVisibility(visibility : Int, colorPaletteViewList : List<View> = colorPaletteButtons){
