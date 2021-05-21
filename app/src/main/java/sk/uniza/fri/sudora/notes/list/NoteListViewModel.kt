@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.notes.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

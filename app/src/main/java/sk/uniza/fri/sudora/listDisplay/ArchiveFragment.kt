@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.listDisplay
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import sk.uniza.fri.sudora.R
 import sk.uniza.fri.sudora.adapter.NoteAdapter
 import sk.uniza.fri.sudora.adapter.NoteListener
 import sk.uniza.fri.sudora.databinding.FragmentArchiveBinding
+import sk.uniza.fri.sudora.notes.list.ListType
+import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 
 /**
  * Fragment, ktory zobrazuje poznamky ulozene v archive

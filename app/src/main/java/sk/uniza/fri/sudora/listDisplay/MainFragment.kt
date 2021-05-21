@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.listDisplay
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -14,9 +14,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import sk.uniza.fri.sudora.R
 import sk.uniza.fri.sudora.adapter.NoteAdapter
 import sk.uniza.fri.sudora.adapter.NoteListener
 import sk.uniza.fri.sudora.databinding.FragmentMainBinding
+import sk.uniza.fri.sudora.notes.list.ListType
+import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 
 
 /**
@@ -32,7 +35,7 @@ class MainFragment : Fragment() {
     ): View {
         //zobrazi action bar
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         //tlacitlo pre pridanie dalsej poznamky
         binding.newNoteButton.setOnClickListener { view: View ->
             view.findNavController().navigate(MainFragmentDirections.actionMainFragmentToCreateNoteFragment())
@@ -67,7 +70,7 @@ class MainFragment : Fragment() {
      * Prida poznamku do zoznamu poznamok, ak sa tam uz nenachadza
      */
     private fun addNoteToNoteList(){
-        var note = args.note
+        val note = args.note
         //prida poznamku do zoznamu len ak sa rovnaka poznamka nenachadza v zoznamoch
         if(!isInViewModel() && note != null && note.noteTitle != "" && note.noteText != "") {
             //zisti pouzivatelovu preferenciu o pridani poznamky na prve miesto v zozname alebo na posledne

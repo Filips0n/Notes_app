@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import sk.uniza.fri.sudora.R
 import sk.uniza.fri.sudora.databinding.FragmentSettingsBinding
 
 /**

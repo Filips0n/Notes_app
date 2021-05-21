@@ -24,7 +24,7 @@ import java.util.*
 class CreateNoteFragment : Fragment() {
     private lateinit var binding: FragmentCreateNoteBinding
     private val args by navArgs<CreateNoteFragmentArgs>()
-    var note = Note(UUID.randomUUID(), "", "", NoteColor.YELLOW)
+    private var note = Note(UUID.randomUUID(), "", "", NoteColor.YELLOW)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

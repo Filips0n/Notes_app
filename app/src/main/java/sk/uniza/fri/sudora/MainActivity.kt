@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import sk.uniza.fri.sudora.databinding.ActivityMainBinding
 import sk.uniza.fri.sudora.notes.Note
+import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 
 /**
  * Vstupna trieda do aplikacie

@@ -12,13 +12,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import sk.uniza.fri.sudora.*
-import sk.uniza.fri.sudora.ListType.ARCHIVE
-import sk.uniza.fri.sudora.ListType.TRASH
+import sk.uniza.fri.sudora.notes.list.ListType.ARCHIVE
+import sk.uniza.fri.sudora.notes.list.ListType.TRASH
 import sk.uniza.fri.sudora.databinding.NoteViewBinding
+import sk.uniza.fri.sudora.listDisplay.ArchiveFragmentDirections
+import sk.uniza.fri.sudora.listDisplay.MainFragmentDirections
+import sk.uniza.fri.sudora.listDisplay.TrashFragmentDirections
 import sk.uniza.fri.sudora.notes.Note
 import sk.uniza.fri.sudora.notes.NoteColor
+import sk.uniza.fri.sudora.notes.list.ListType
+import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 import java.util.*
-import sk.uniza.fri.sudora.ListType.NOTE as NOTE1
+import sk.uniza.fri.sudora.notes.list.ListType.NOTE as NOTE1
 
 
 class NoteAdapter(
@@ -71,12 +76,12 @@ class NoteAdapter(
     }
 
     class NoteViewHolder constructor(val binding: NoteViewBinding): RecyclerView.ViewHolder(binding.root) {
-        lateinit var context: Context
-        lateinit var note : Note
-        lateinit var viewModel: NoteListViewModel
-        lateinit var listType: ListType
+        private lateinit var context: Context
+        private lateinit var note : Note
+        private lateinit var viewModel: NoteListViewModel
+        private lateinit var listType: ListType
 
-        lateinit var deleteDialog : MaterialAlertDialogBuilder
+        private lateinit var deleteDialog : MaterialAlertDialogBuilder
         private val greenColorPickerButton = binding.greenColorPicker
         private val blueColorPickerButton = binding.blueColorPicker
         private val yellowColorPickerButton = binding.yellowColorPicker
@@ -84,7 +89,7 @@ class NoteAdapter(
         private val colorPaletteBackground = binding.colorPaletteBackground
         //zoznam vsetkych buttonov a pozadia, ktore sa ukryju/ zobrazia ked sa klikne na tlacidlo palety
         private val colorPaletteButtons : List<ImageView> = listOf(colorPaletteBackground,  greenColorPickerButton, blueColorPickerButton, yellowColorPickerButton, redColorPickerButton)
-        var isPaletteOpen = false
+        private var isPaletteOpen = false
 
         private val titleButton = binding.noteTitleView
         private val textButton = binding.noteTextView
@@ -367,7 +372,6 @@ class NoteAdapter(
             return oldItem == newItem
         }
     }
-
 }
 class NoteListener(val clickListener: (noteId: UUID) -> Unit) {
     fun onClick(note: Note) = clickListener(note.noteId)

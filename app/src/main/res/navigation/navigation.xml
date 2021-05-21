@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="sk.uniza.fri.sudora.MainFragment"
+        android:name="sk.uniza.fri.sudora.listDisplay.MainFragment"
         android:label="@string/app_name" >
         <action
             android:id="@+id/action_mainFragment_to_createNoteFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/archiveFragment"
-        android:name="sk.uniza.fri.sudora.ArchiveFragment"
+        android:name="sk.uniza.fri.sudora.listDisplay.ArchiveFragment"
         android:label="Archive" >
         <action
             android:id="@+id/action_archiveFragment_to_createNoteFragment"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/trashFragment"
-        android:name="sk.uniza.fri.sudora.TrashFragment"
+        android:name="sk.uniza.fri.sudora.listDisplay.TrashFragment"
         android:label="Trash" >
         <action
             android:id="@+id/action_trashFragment_to_createNoteFragment"
@@ -55,6 +55,6 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="sk.uniza.fri.sudora.SettingsFragment"
+        android:name="sk.uniza.fri.sudora.settings.SettingsFragment"
         android:label="Settings" />
 </navigation>

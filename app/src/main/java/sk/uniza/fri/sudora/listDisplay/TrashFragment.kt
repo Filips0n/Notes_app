@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.listDisplay
 
 import android.os.Bundle
 import android.view.*
@@ -8,9 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import sk.uniza.fri.sudora.R
 import sk.uniza.fri.sudora.adapter.NoteAdapter
 import sk.uniza.fri.sudora.adapter.NoteListener
 import sk.uniza.fri.sudora.databinding.FragmentTrashBinding
+import sk.uniza.fri.sudora.notes.list.ListType
+import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 
 /**
  * Fragment, ktory zobrazuje poznamky ulozene v kosi

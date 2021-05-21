@@ -1,4 +1,4 @@
-package sk.uniza.fri.sudora
+package sk.uniza.fri.sudora.notes.list
 
 /**
  * Enum trieda pre urcenie o aky typ zoznamu poznamok ide
