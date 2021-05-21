@@ -13,9 +13,9 @@ class NoteListViewModel : ViewModel() {
     /**
      * Prida poznamku do zadaneho zoznamu na zadane miesto
      *
-     * @param note poznamka na pridanie
-     * @param type typ zoznamu kam sa ma poznamka pridat
-     * @param position na aku poziciu sa ma poznamka pridat
+     * @property note poznamka na pridanie
+     * @property type typ zoznamu kam sa ma poznamka pridat
+     * @property position na aku poziciu sa ma poznamka pridat
      */
     fun addNote(note: Note, type: ListType, position: Int = -1) {
         when(type) {
@@ -45,8 +45,8 @@ class NoteListViewModel : ViewModel() {
     /**
      * Odstrani zadanu poznamku zo zadaneho zoznamu
      *
-     * @param note poznamka na odstranenie
-     * @param type typ zoznamu, z ktoreho sa odstrani poznamka
+     * @property note poznamka na odstranenie
+     * @property type typ zoznamu, z ktoreho sa odstrani poznamka
      */
     fun removeNote(note: Note, type: ListType) {
         when(type) {
@@ -75,9 +75,9 @@ class NoteListViewModel : ViewModel() {
     /**
      * Nacita do viewmodelu vsetky zoznamy
      *
-     * @param noteData zoznam hlavnych poznamok
-     * @param archiveData zoznam archivovanych poznamok
-     * @param trashData zoznam poznamok v kosi
+     * @property noteData zoznam hlavnych poznamok
+     * @property archiveData zoznam archivovanych poznamok
+     * @property trashData zoznam poznamok v kosi
      */
     fun addToViewModel(noteData: MutableList<Note?>, archiveData: MutableList<Note?>, trashData: MutableList<Note?>) {
         //prirad data k zoznamu

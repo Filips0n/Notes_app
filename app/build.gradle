@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'org.jetbrains.dokka'
 }
+
 apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 30
@@ -40,7 +41,7 @@ android {
     }
 }
 tasks.dokkaHtml.configure {
-    outputDirectory.set(file("../dokumentacia/html"))
+    outputDirectory.set(file("../doc/html"))
 }
 tasks.withType(dokkaHtml.getClass()).configureEach{
     pluginsMapConfiguration.set(

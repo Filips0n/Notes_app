@@ -21,9 +21,8 @@ import sk.uniza.fri.sudora.databinding.FragmentMainBinding
 import sk.uniza.fri.sudora.notes.list.ListType
 import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 
-
 /**
- * Zobrazuje aktualny zoznam poznamok, s moznostou tlacitla pre vztvorenie novej poznamky
+ * Zobrazuje hlavny zoznam poznamok, obsahuje tlacidlo pre vytvorenie novej poznamky
  */
 class MainFragment : Fragment() {
     private val args by navArgs<MainFragmentArgs>()

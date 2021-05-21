@@ -7,11 +7,11 @@ import java.util.*
 /**
  * Datova tieda pre ulozenie poznamky
  *
- * @param noteId jedinecne ID poznamky
- * @param noteTitle nadpis poznmaky
- * @param noteText text poznamky
- * @param color farba poznamky
- * @param isPinned je poznamka pripnuta
+ * @property noteId jedinecne ID poznamky
+ * @property noteTitle nadpis poznmaky
+ * @property noteText text poznamky
+ * @property color farba poznamky
+ * @property isPinned je poznamka pripnuta
  */
 data class Note(val noteId: UUID,
                          var noteTitle: String,

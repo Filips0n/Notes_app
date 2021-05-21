@@ -25,7 +25,14 @@ import sk.uniza.fri.sudora.notes.list.NoteListViewModel
 import java.util.*
 import sk.uniza.fri.sudora.notes.list.ListType.NOTE as NOTE1
 
-
+/**
+ * Adapter pre zoznam poznamok
+ * 
+ * @property viewModel viewModel kde je ulozeny zoznam poznamok
+ * @property listType typ aktualneho listu
+ * @property clickListener pocuvac kliku na poznamku
+ * @property context context, z fragmentu
+ */
 class NoteAdapter(
         private val viewModel: NoteListViewModel,
         private val listType: ListType,
@@ -57,7 +64,7 @@ class NoteAdapter(
     /**
      * Podla farby nastavenej v poznamke urci akej farby ma byt poznamka
      *
-     * @param note poznamka, ktorej chceme zistit farbu
+     * @property note poznamka, ktorej chceme zistit farbu
      *
      * @return cestu suboru k podfarbeniu poznamky
      */
@@ -293,10 +300,10 @@ class NoteAdapter(
         /**
          * Presunie data do view holdera
          *
-         * @param viewModel viewModel, z ktoreho sa preberaju zoznamy
-         * @param note aktualna poznamka
-         * @param listType typ aktulalneho zoznamu
-         * @param context context z fragmentu
+         * @property viewModel viewModel, z ktoreho sa preberaju zoznamy
+         * @property note aktualna poznamka
+         * @property listType typ aktulalneho zoznamu
+         * @property context context z fragmentu
          */
         fun moveDataToViewHolder(viewModel: NoteListViewModel, note: Note?, listType: ListType, context: Context) {
             this.note = note!!
@@ -353,8 +360,8 @@ class NoteAdapter(
         /**
          * Nastav vsetkym prvkom v palete zadanu viditelnost
          *
-         * @param visibility nastavenie viditelnosti/neviditelnosti
-         * @param colorPaletteViewList zoznam tlacidial a pozadia na zmenu viditelnosti
+         * @property visibility nastavenie viditelnosti/neviditelnosti
+         * @property colorPaletteViewList zoznam tlacidial a pozadia na zmenu viditelnosti
          */
         private fun setColorPaletteVisibility(visibility : Int, colorPaletteViewList : List<View> = colorPaletteButtons){
             for(view in colorPaletteViewList)

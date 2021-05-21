@@ -61,7 +61,7 @@ class TrashFragment : Fragment() {
     /**
      * Nastavuje menu na zobrazenie
      *
-     * @param menu menu, ktore sa ma zobrazit
+     * @property menu menu, ktore sa ma zobrazit
      */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.trash_menu, menu)
@@ -71,7 +71,7 @@ class TrashFragment : Fragment() {
     /**
      * Zisti stalacene tlacidlo a podla toho vykona okciu
      *
-     * @param item stlacene tlacidlo
+     * @property item stlacene tlacidlo
      *
      * @return stlaceny item
      */
